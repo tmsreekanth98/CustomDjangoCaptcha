@@ -1,0 +1,49 @@
+
+{% load staticfiles %}
+
+<link rel="stylesheet" href="{% static 'Form/style.css' %}">
+<br>
+<h1 class="heading" align="center" style="color:white;">  ENTER THE DETAILS </h1><br>
+<div class="form-box" align="center">
+	
+{% if status == 'N' %}
+<h3 style="color:white;">STATUS: NOT SUBMITTED</h2>
+
+
+{% elif status == 'Incorrect_Captcha' %}
+<h3 style="color:white;"><div style="color: #50F0F0;display: inline;">INCORRECT CAPTCHA ENTERED!</div></h2>
+
+
+
+{% else %}
+<h3 style="color:white;">STATUS: <div style="color: lightgreen;display: inline;">SUBMITTED {{status}} times.</div></h2>
+{% endif %}
+
+
+
+
+	<form method="post">
+  			{% csrf_token %}
+  			{% for field in form %}
+  				{% if field.errors %}
+  					{% ifequal field.name 'Captcha' %}
+  						<img src="{% static 'Form/img/cp.png' %}"><br><br>
+  					{% endifequal %}
+  					<input name="{{field.name}}" type="text" placeholder="{{field.label}}" class="form-input">
+  					<div class="form-error-message">{{field.errors}}</div>
+  				{% else %}
+
+  					{% ifequal field.name 'Captcha' %}
+  						<img src="{% static 'Form/img/cp.png' %}"><br><br>
+  					{% endifequal %}
+
+  					<input align="center" name="{{field.name}}" type="text" placeholder="{{field.label}}" class="form-input">
+  					<br>
+	  				<br>
+	  				
+  				{% endif %}
+  				
+  			{% endfor %}
+  			<input type="submit" name="submit" class="submit-button">
+	</form>
+</div>
